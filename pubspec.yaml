@@ -6,9 +6,15 @@ version: 0.1.0
 environment:
   sdk: ^3.7.2
 
+
 dependencies:
   flutter:
     sdk: flutter
+
+  shared_preferences: ^2.2.2
+  provider: ^6.1.1
+  intl: ^0.20.2
+
 
 dev_dependencies:
   flutter_test:

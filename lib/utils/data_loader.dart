@@ -1,0 +1,35 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+class DailyNews {
+  final String turn;
+  final String personName;
+  final String imageUrl;
+  final DateTime date;
+
+  var id;
+
+  DailyNews({
+    required this.turn,
+    required this.personName,
+    required this.imageUrl,
+    required this.date,
+  });
+
+  factory DailyNews.fromJson(Map<String, dynamic> json) {
+    return DailyNews(
+      turn: json['turn'],
+      personName: json['personName'],
+      imageUrl: json['imageUrl'],
+      date: DateTime.parse(json['date']),
+    );
+  }
+}
+
+class DataLoader {
+  static Future<List<DailyNews>> loadDailyNews() async {
+    final String response = await rootBundle.loadString('lib/data/daily_news.json');
+    final List<dynamic> data = json.decode(response);
+    return data.map((item) => DailyNews.fromJson(item)).toList();
+  }
+}
