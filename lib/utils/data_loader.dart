@@ -2,15 +2,13 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 class DailyNews {
-  final String turn;
+  final int id;
   final String personName;
   final String imageUrl;
   final DateTime date;
 
-  var id;
-
   DailyNews({
-    required this.turn,
+    required this.id,
     required this.personName,
     required this.imageUrl,
     required this.date,
@@ -18,25 +16,30 @@ class DailyNews {
 
   factory DailyNews.fromJson(Map<String, dynamic> json) {
     return DailyNews(
-      turn: json['turn'],
+      id: json['id'],
       personName: json['personName'],
-      imageUrl: json['imageUrl'],
-      date: DateTime.parse(json['date']),
+      imageUrl: json['profilePicUrl'],
+      date: DateTime.parse(json['dateOfNews']),
     );
   }
 }
 
 class DataLoader {
   static Future<List<DailyNews>> loadDailyNews() async {
-    final String response = await rootBundle.loadString('lib/data/daily_news.json');
+    final String response = await rootBundle.loadString(
+      'lib/data/daily_news.json',
+    );
     final List<dynamic> data = json.decode(response);
     return data.map((item) => DailyNews.fromJson(item)).toList();
   }
 
-  static Future<Map<String, dynamic>?> getUserByEmail(String email) async{
+  static Future<Map<String, dynamic>?> getUserByEmail(String email) async {
     final String response = await rootBundle.loadString('lib/data/users.json');
     final List<dynamic> users = json.decode(response);
-    return users.firstWhere((user) => user['email'] == email, 
-        orElse: () => null) as Map<String, dynamic>?;
+    return users.firstWhere(
+          (user) => user['email'] == email,
+          orElse: () => null,
+        )
+        as Map<String, dynamic>?;
   }
 }

@@ -1,20 +1,20 @@
 [
   {
     "id": 1,
-    "person_name": "John Doe",
-    "date_of_news": "2023-10-27",
-    "profilepic_url": "https://example.com/profiles/johndoe.jpg"
+    "personName": "John Doe",
+    "dateOfNews": "2023-10-27",
+    "profilePicUrl": "https://example.com/profiles/johndoe.jpg"
   },
   {
     "id": 2,
-    "person_name": "Jane Smith",
-    "date_of_news": "2023-10-26",
-    "profilepic_url": "https://example.com/profiles/janesmith.jpg"
+    "personName": "Jane Smith",
+    "dateOfNews": "2023-10-26",
+    "profilePicUrl": "https://example.com/profiles/janesmith.jpg"
   },
   {
     "id": 3,
-    "person_name": "Peter Jones",
-    "date_of_news": "2023-10-25",
-    "profilepic_url": "https://example.com/profiles/peterjones.jpg"
+    "personName": "Peter Jones",
+    "dateOfNews": "2023-10-25",
+    "profilePicUrl": "https://example.com/profiles/peterjones.jpg"
   }
 ]

@@ -25,7 +25,18 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> _checkLoginStatus() async {
     _isLoggedIn = await AuthManager.isLoggedIn();
-    if (!_isLoggedIn) {
+    if (_isLoggedIn) {
+      final email = await AuthManager.getLoggedInUserEmail();
+      if (email != null) {
+        final user = await DataLoader.getUserByEmail(email);
+        if (user != null) {
+          setUser(user);
+        } else {
+          // User data not found, log them out
+          logout();
+        }
+      }
+    } else {
       clearUser();
     }
     notifyListeners();
@@ -33,11 +44,9 @@ class AuthProvider with ChangeNotifier {
 
   Future<Map<String, dynamic>?> login(String email, String password) async {
     final foundUser = await DataLoader.getUserByEmail(email);
-
     if (foundUser != null) {
-      
       _isLoggedIn = true;
-
+      await AuthManager.setLoggedIn(true, email: email);
       setUser(foundUser);
       return foundUser;
     }
@@ -45,8 +54,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await AuthManager.logout();
     _isLoggedIn = false;
+    await AuthManager.logout();
     clearUser();
+    notifyListeners();
   }
 }

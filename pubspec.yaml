@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.5.3
   provider: ^6.1.1
   intl: ^0.20.2
 
@@ -24,4 +24,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/
+    - assets/images/ET_logo_text.png
+    - assets/images/ET_logo.jpg
+    - lib/data/contributions.json
+    - lib/data/daily_news.json
+    - lib/data/events.json
+    - lib/data/stock_items.json
+    - lib/data/users.json
+    - lib/data/wfo_schemas.json
