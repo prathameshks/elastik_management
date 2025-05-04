@@ -32,4 +32,11 @@ class DataLoader {
     final List<dynamic> data = json.decode(response);
     return data.map((item) => DailyNews.fromJson(item)).toList();
   }
+
+  static Future<Map<String, dynamic>?> getUserByEmail(String email) async{
+    final String response = await rootBundle.loadString('lib/data/users.json');
+    final List<dynamic> users = json.decode(response);
+    return users.firstWhere((user) => user['email'] == email, 
+        orElse: () => null) as Map<String, dynamic>?;
+  }
 }

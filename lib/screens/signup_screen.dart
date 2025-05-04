@@ -31,11 +31,7 @@ class _SignupScreenState extends State<SignupScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Company Logo Placeholder
-              const CircleAvatar(
-                radius: 60,
-                backgroundColor: Colors.grey,
-                child: Icon(Icons.business, size: 60, color: Colors.white),
-              ),
+              Image.asset("assets/images/ET_logo.jpg",height: 60,width:60,repeat:ImageRepeat.noRepeat,),
               const SizedBox(height: 48),
 
               // Username Input Field
@@ -79,11 +75,20 @@ class _SignupScreenState extends State<SignupScreen> {
               // Signup Button
               ElevatedButton(
                 onPressed: () {
-                  // Handle signup logic here
-                  // For now, just print the values
                   print('Username: ${_usernameController.text}');
                   print('Email: ${_emailController.text}');
                   print('Password: ${_passwordController.text}');
+
+                  // Show a success snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Signup Successful!')),
+                  );
+
+                  // Navigate to home screen
+                  Navigator.pushReplacementNamed(
+                    context,
+                    '/home',
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),

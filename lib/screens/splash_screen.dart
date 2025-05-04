@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:elastik_management/utils/constants.dart';
-import 'login_screen.dart';
+import '../main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) => const AuthWrapper()),
       );
     });
   }
@@ -30,12 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Placeholder for company logo
-            Container(
-              width: 150,
-              height: 150,
-              color: Colors.grey[300],
-              child: const Center(child: Text('Company Logo')),
-            ),
+            Image.asset("assets/images/ET_logo_text.png",width:150,repeat: ImageRepeat.noRepeat,),
             const SizedBox(height: 20),
             const CircularProgressIndicator(
               color: AppColors.primaryColor,

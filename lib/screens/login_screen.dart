@@ -11,7 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
 
@@ -27,17 +27,13 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40.0),
-              const CircleAvatar(
-                radius: 60,
-                backgroundColor: Colors.blueGrey,
-                child: Icon(Icons.business, size: 60, color: Colors.white),
-              ),
+              Image.asset("assets/images/ET_logo.jpg",height: 60,width:60,repeat:ImageRepeat.noRepeat,),
               const SizedBox(height: 40.0),
               TextFormField(
-                controller: _usernameController,
+                controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: 'Username',
-                  hintText: 'Enter your username',
+                  labelText: 'Email',
+                  hintText: 'Enter your email',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -73,10 +69,36 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 30.0),
               ElevatedButton(
-                onPressed: () {
-                  context.read<AuthProvider>().login();
-                  // If login is successful, navigate to the home screen
-                  Navigator.pushReplacementNamed(context, '/home');
+                onPressed: () async {
+                  final String email = _emailController.text;
+                  final String password = _passwordController.text;
+
+                  final user = await context.read<AuthProvider>().login(
+                    email,
+                    password,
+                  );
+                  if (user != null) {
+                    // If login is successful, navigate to the home screen
+                    Navigator.pushReplacementNamed(context, '/home');
+                  } else {
+                    // If login fails, show an error dialog
+                    showDialog(
+                      context: context,
+                      builder:
+                          (context) => AlertDialog(
+                            title: const Text('Login Failed'),
+                            content: const Text(
+                              'Invalid email or password. Please try again.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueGrey,
