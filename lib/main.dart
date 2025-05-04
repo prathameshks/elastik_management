@@ -29,7 +29,11 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch().copyWith(secondary: AppColors.secondaryColor),
           scaffoldBackgroundColor: AppColors.backgroundColor,
         ),
-        home: const SplashScreen(), // Correctly set the SplashScreen as the home
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/home':(context) => const AuthWrapper(),
+        },
       ),
     );
   }
