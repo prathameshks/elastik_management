@@ -3,7 +3,7 @@ import 'package:elastik_management/utils/constants.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
