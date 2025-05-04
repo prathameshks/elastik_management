@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "First Week of the Month",
+    "description": "Employees work during the first week of each month.",
+    "type": "weekInMonth"
+  },
+  {
+    "id": 2,
+    "name": "Second Week of the Month",
+    "description": "Employees work during the second week of each month.",
+    "type": "weekInMonth"
+  },
+  {
+    "id": 3,
+    "name": "Third Week of the Month",
+    "description": "Employees work during the third week of each month.",
+    "type": "weekInMonth"
+  },
+  {
+    "id": 4,
+    "name": "Fourth Week of the Month",
+    "description": "Employees work during the fourth week of each month.",
+    "type": "weekInMonth"
+  },
+  {
+    "id": 5,
+    "name": "Mondays",
+    "description": "Employees work every Monday.",
+    "type": "dayInWeek"
+  },
+  {
+    "id": 6,
+    "name": "Tuesdays",
+    "description": "Employees work every Tuesday.",
+    "type": "dayInWeek"
+  },
+  {
+    "id": 7,
+    "name": "Wednesdays",
+    "description": "Employees work every Wednesday.",
+    "type": "dayInWeek"
+  },
+  {
+    "id": 8,
+    "name": "Thursdays",
+    "description": "Employees work every Thursday.",
+    "type": "dayInWeek"
+  },
+  {
+    "id": 9,
+    "name": "Fridays",
+    "description": "Employees work every Friday.",
+    "type": "dayInWeek"
+  },
+  {
+    "id": 10,
+    "name": "Saturdays",
+    "description": "Employees work every Saturday.",
+    "type": "dayInWeek"
+  },
+  {
+    "id": 11,
+    "name": "Sundays",
+    "description": "Employees work every Sunday.",
+    "type": "dayInWeek"
+  }
+]

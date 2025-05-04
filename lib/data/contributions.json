@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "user": 1,
+    "reason": "Office Party",
+    "amount": 100.0,
+    "status": "paid"
+  },
+  {
+    "id": 2,
+    "user": 2,
+    "reason": "Charity Event",
+    "amount": 50.0,
+    "status": "unpaid"
+  },
+  {
+    "id": 3,
+    "user": 3,
+    "reason": "Team Lunch",
+    "amount": 75.0,
+    "status": "paid"
+  },
+  {
+    "id": 4,
+    "user": 4,
+    "reason": "Office Supplies",
+    "amount": 30.0,
+    "status": "unpaid"
+  },
+  {
+    "id": 5,
+    "user": 5,
+    "reason": "Birthday Celebration",
+    "amount": 60.0,
+    "status": "paid"
+  },
+  {
+    "id": 6,
+    "user": 6,
+    "reason": "Team Outing",
+    "amount": 90.0,
+    "status": "unpaid"
+  },
+  {
+    "id": 7,
+    "user": 7,
+    "reason": "Office Renovation",
+    "amount": 200.0,
+    "status": "paid"
+  },
+  {
+    "id": 8,
+    "user": 8,
+    "reason": "Charity Donation",
+    "amount": 120.0,
+    "status": "unpaid"
+  },
+  {
+    "id": 9,
+    "user": 9,
+    "reason": "Office Maintenance",
+    "amount": 80.0,
+    "status": "paid"
+  },
+  {
+    "id": 10,
+    "user": 10,
+    "reason": "Team Building Activity",
+    "amount": 110.0,
+    "status": "unpaid"
+  }
+]

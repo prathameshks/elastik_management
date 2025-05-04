@@ -1,0 +1,4 @@
+enum ContributionStatus{
+  paid,
+  unpaid
+}

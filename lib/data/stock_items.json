@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Drinking Water",
+    "category": "essentials",
+    "status": "available",
+    "description": "Drinking Water",
+    "quantity": 1
+  },
+  {
+    "id": 2,
+    "name": "Coffee",
+    "category": "beverages",
+    "status": "needsRefill",
+    "description": "Coffee Powder",
+    "quantity": 20
+  },
+  {
+    "id": 3,
+    "name": "Milk Powder",
+    "category": "beverages",
+    "status": "unavailable",
+    "description": "Milk Powder",
+    "quantity": 0
+  },
+  {
+    "id": 4,
+    "name": "Tea",
+    "category": "beverages",
+    "status": "available",
+    "description": "Ready made Tea premix",
+    "quantity": 50
+  },
+  {
+    "id": 5,
+    "name": "Sugar",
+    "category": "beverages",
+    "status": "available",
+    "description": "Sugar Packets",
+    "quantity": 50
+  },
+  {
+    "id": 6,
+    "name": "Chocolate",
+    "category": "snacks",
+    "status": "needsRefill",
+    "description": "Cadbury, 5star, Perk, Munch, etc",
+    "quantity": 10
+  },
+  {
+    "id": 7,
+    "name": "Chips",
+    "category": "snacks",
+    "status": "available",
+    "description": "Potato Chips, Namkin",
+    "quantity": 10
+  },
+  {
+    "id": 8,
+    "name": "Tissue Paper",
+    "category": "hygiene",
+    "status": "available",
+    "description": "Soft Tissue Paper",
+    "quantity": 100
+  },
+  {
+    "id": 9,
+    "name": "Coffee Paper Cups",
+    "category": "essentials",
+    "status": "available",
+    "description": "Disposable Coffee Paper Cups",
+    "quantity": 200
+  },
+  {
+    "id": 10,
+    "name": "Paper Plates",
+    "category": "disposables",
+    "status": "available",
+    "description": "Disposable Paper Plates",
+    "quantity": 150
+  },
+  {
+    "id": 11,
+    "name": "Stirrers",
+    "category": "essentials",
+    "status": "available",
+    "description": "Wooden or Plastic Stirrers",
+    "quantity": 300
+  },
+  {
+    "id": 12,
+    "name": "Handwash",
+    "category": "hygiene",
+    "status": "needsRefill",
+    "description": "Liquid Handwash",
+    "quantity": 5
+  },
+  {
+    "id": 13,
+    "name": "Room Freshener",
+    "category": "essentials",
+    "status": "available",
+    "description": "Air Freshener Spray",
+    "quantity": 10
+  },
+  {
+    "id": 14,
+    "name": "Biscuits",
+    "category": "snacks",
+    "status": "unavailable",
+    "description": "Assorted Biscuits",
+    "quantity": 50
+  },
+  {
+    "id": 15,
+    "name": "Toilet Paper Rolls",
+    "category": "hygiene",
+    "status": "available",
+    "description": "Toilet Paper Rolls",
+    "quantity": 30
+  }
+]
