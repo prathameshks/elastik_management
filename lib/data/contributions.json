@@ -2,70 +2,80 @@
   {
     "id": 1,
     "user": 1,
-    "reason": "Office Party",
+    "reason": "fridayTShirt",
+    "otherReason": "",
     "amount": 100.0,
     "status": "paid"
-  },
-  {
+    },
+    {
     "id": 2,
     "user": 2,
-    "reason": "Charity Event",
+    "reason": "missedNews",
+    "otherReason": "",
     "amount": 50.0,
     "status": "unpaid"
-  },
-  {
+    },
+    {
     "id": 3,
     "user": 3,
-    "reason": "Team Lunch",
+    "reason": "wfoMissed",
+    "otherReason": "",
     "amount": 75.0,
     "status": "paid"
-  },
-  {
+    },
+    {
     "id": 4,
     "user": 4,
-    "reason": "Office Supplies",
+    "reason": "other",
+    "otherReason": "Forgot to inform",
     "amount": 30.0,
     "status": "unpaid"
-  },
-  {
+    },
+    {
     "id": 5,
     "user": 5,
-    "reason": "Birthday Celebration",
+    "reason": "fridayTShirt",
+    "otherReason": "",
     "amount": 60.0,
     "status": "paid"
-  },
-  {
+    },
+    {
     "id": 6,
     "user": 6,
-    "reason": "Team Outing",
+    "reason": "missedNews",
+    "otherReason": "",
     "amount": 90.0,
     "status": "unpaid"
-  },
-  {
+    },
+    {
     "id": 7,
     "user": 7,
-    "reason": "Office Renovation",
+    "reason": "wfoMissed",
+    "otherReason": "",
     "amount": 200.0,
     "status": "paid"
-  },
-  {
+    },
+    {
     "id": 8,
     "user": 8,
-    "reason": "Charity Donation",
+    "reason": "other",
+    "otherReason": "Personal reasons",
     "amount": 120.0,
     "status": "unpaid"
-  },
-  {
+    },
+    {
     "id": 9,
     "user": 9,
-    "reason": "Office Maintenance",
+    "reason": "fridayTShirt",
+    "otherReason": "",
     "amount": 80.0,
     "status": "paid"
-  },
-  {
+    },
+    {
     "id": 10,
     "user": 10,
-    "reason": "Team Building Activity",
+    "reason": "missedNews",
+    "otherReason": "",
     "amount": 110.0,
     "status": "unpaid"
   }

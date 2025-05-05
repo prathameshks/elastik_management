@@ -5,8 +5,8 @@ import '../models/user.dart';
 class Contribution {
   final int id;
   final User user;
-  final String reason;
-  final double amount;
+  double amount;
+  ContributionReason reason;
   ContributionStatus status = ContributionStatus.unpaid;
 
   Contribution({
