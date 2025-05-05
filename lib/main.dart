@@ -5,7 +5,7 @@ import 'package:elastik_management/screens/home_screen.dart';
 import 'package:elastik_management/screens/login_screen.dart';
 import 'package:elastik_management/screens/news_screen.dart';
 import 'package:elastik_management/screens/stock_screen.dart';
-import 'package:elastik_management/screens/event_screen.dart';
+// import 'package:elastik_management/screens/event_screen.dart';
 import 'package:elastik_management/screens/wfo_schedule_screen.dart';
 import 'package:elastik_management/screens/contributions_screen.dart';
 import 'package:elastik_management/utils/constants.dart';
@@ -51,50 +51,38 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool _showHomeScreen = true; // Initially show home screen
-  int _bottomNavIndex =
-      0; // Index for bottom navigation (0=News after removing Home)
+  int _currentIndex = 0; // Index for bottom navigation (0=Home)
 
   final List<String> _screenTitles = [
-    'Home',
-    'News',
-    'Stock',
-    'Event',
+    'Elastik Internal',
+    'News Remainder',
+    'Office Snack Stock',
+    // 'Event',
     'WFO Schedule',
-    'Contributions',
+    'Community Contributions',
   ];
 
   void _onTabTapped(int index) {
     setState(() {
-      _bottomNavIndex = index;
-      _showHomeScreen = false;
-    });
-  }
-
-  void _goToHome() {
-    setState(() {
-      _showHomeScreen = true;
+      _currentIndex = index;
     });
   }
 
   Widget _getCurrentScreen() {
-    if (_showHomeScreen) {
-      return const HomeScreen();
-    }
-    
-    switch (_bottomNavIndex) {
+    // Create screens on demand instead of storing them
+    switch (_currentIndex) {
       case 0:
-        return const NewsScreen();
+        return const HomeScreen();
       case 1:
-        return const StockScreen();
+        return const NewsScreen();
       case 2:
-        return const EventScreen();
+        return const StockScreen();
       case 3:
         return const WfoScheduleScreen();
       case 4:
         return const ContributionsScreen();
       default:
-        return const NewsScreen();
+        return const HomeScreen();
     }
   }
 
@@ -102,11 +90,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Show home button only when not on home screen
-        leading: !_showHomeScreen
-            ? IconButton(icon: const Icon(Icons.home), onPressed: _goToHome)
-            : null,
-        title: Text(_screenTitles[_showHomeScreen ? 0 : _bottomNavIndex + 1]),
+        title: Text(_screenTitles[_currentIndex]),
         backgroundColor: AppColors.primaryColor,
         actions: [
           IconButton(
@@ -120,14 +104,15 @@ class _MainScreenState extends State<MainScreen> {
       body: _getCurrentScreen(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        currentIndex: _bottomNavIndex,
+        currentIndex: _currentIndex,
         onTap: _onTabTapped,
         selectedItemColor: AppColors.primaryColor,
         unselectedItemColor: AppColors.secondaryColor,
         items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.newspaper), label: 'News'),
           BottomNavigationBarItem(icon: Icon(Icons.fastfood), label: 'Stock'),
-          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Event'),
+          // BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Event'),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
             label: 'WFO',

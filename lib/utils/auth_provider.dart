@@ -23,6 +23,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // get logged in user details
+  Future<Map<String, dynamic>?> getLoggedInUserDetails() async {
+    return _user;
+  }
+
   Future<void> _checkLoginStatus() async {
     _isLoggedIn = await AuthManager.isLoggedIn();
     if (_isLoggedIn) {

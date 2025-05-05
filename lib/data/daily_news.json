@@ -1,20 +1,38 @@
 [
   {
     "id": 1,
-    "personName": "John Doe",
-    "dateOfNews": "2023-10-27",
-    "profilePicUrl": "https://example.com/profiles/johndoe.jpg"
+    "personName": "Riya Pandey",
+    "dateOfNews": "2025-05-05",
+    "profilePicUrl": "https://elastikteams7.my.site.com/sfsites/c/resource/riya"
   },
   {
     "id": 2,
-    "personName": "Jane Smith",
-    "dateOfNews": "2023-10-26",
-    "profilePicUrl": "https://example.com/profiles/janesmith.jpg"
+    "personName": "Rutika Khaire",
+    "dateOfNews": "2025-05-06",
+    "profilePicUrl": "https://elastikteams7.my.site.com/sfsites/c/resource/rutika"
   },
   {
     "id": 3,
-    "personName": "Peter Jones",
-    "dateOfNews": "2023-10-25",
-    "profilePicUrl": "https://example.com/profiles/peterjones.jpg"
+    "personName": "Ruturaj Maggirwar",
+    "dateOfNews": "2025-05-07",
+    "profilePicUrl": "https://elastikteams7.my.site.com/sfsites/c/resource/ruturaj"
+  },
+  {
+    "id": 4,
+    "personName": "Ben",
+    "dateOfNews": "2025-05-08",
+    "profilePicUrl": "https://elastikteams7.my.site.com/sfsites/c/resource/ben"
+  },
+  {
+    "id": 5,
+    "personName": "Sameep Sawant",
+    "dateOfNews": "2025-05-09",
+    "profilePicUrl": "https://elastikteams7.my.site.com/sfsites/c/resource/sameep"
+  },
+  {
+    "id": 6,
+    "personName": "Samruddhi Bagul",
+    "dateOfNews": "2025-05-12",
+    "profilePicUrl": "https://elastikteams7.my.site.com/sfsites/c/resource/samrudhhi"
   }
 ]
