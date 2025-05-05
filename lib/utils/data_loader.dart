@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elastik_management/models/stock_item.dart';
 import 'package:elastik_management/interfaces/contribution.dart';
 import 'package:elastik_management/models/contribution.dart';
+import 'package:elastik_management/models/wfo_schema.dart';
 // import 'package:elastik_management/models/wfo_schema.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../models/user.dart';
@@ -36,6 +37,34 @@ class DataLoader {
     final String response = await _readJsonData('lib/data/daily_news.json');
     final List<dynamic> data = json.decode(response);
     return data.map((item) => DailyNews.fromJson(item)).toList();
+  }
+
+  static Future<List<WFOSchema>> loadWFOSchemas() async {
+    final String response = await _readJsonData('lib/data/wfo_schemas.json');
+    final List<dynamic> data = json.decode(response);
+    return data.map((item) => WFOSchema.fromJson(item)).toList();
+  }
+
+  static Future<Map<WFOSchema, List<User>>> loadUsersForWfoSchedule() async {
+    final String usersResponse = await _readJsonData('lib/data/users.json');
+    final List<dynamic> usersData = json.decode(usersResponse);
+    final List<User> allUsers = usersData.map((item) => User.fromJson(item)).toList();
+
+    final List<WFOSchema> wfoSchemas = await loadWFOSchemas();
+    final Map<WFOSchema, List<User>> usersBySchema = {};
+
+    for (var schema in wfoSchemas) {
+      usersBySchema[schema] = [];
+    }
+
+    for (var user in allUsers) {
+      final WFOSchema? userSchema = wfoSchemas.firstWhere((s) => s.id == user.wfoSchema, orElse: () => WFOSchema.defaultSchema());
+      if (userSchema != null) {
+        usersBySchema[userSchema]!.add(user);
+      }
+    }
+    
+    return usersBySchema;
   }
 
   static Future<User?> getUserByEmail(String email) async {
