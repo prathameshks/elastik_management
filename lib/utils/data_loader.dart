@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:elastik_management/models/wfo_schema.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../models/user.dart';
@@ -36,12 +37,39 @@ class DataLoader {
   }
 
   static Future<User?> getUserByEmail(String email) async {
-    final String response = await rootBundle.loadString('lib/data/users.json');
-    final List<dynamic> users = json.decode(response);
-    return users.firstWhere(
-          (user) => user['email'] == email,
-          orElse: () => null,
-        )
-        as User?;
+    try {
+      final String response = await rootBundle.loadString(
+        'lib/data/users.json',
+      );
+      final List<dynamic> users = json.decode(response);
+      final userJson = users.firstWhere(
+        (user) => user['email'] == email,
+        orElse: () => null,
+      );
+
+      if (userJson == null) {
+        return null;
+      }
+
+      // get WFO Schema BY ID and add to Json
+      final wfoSchemaId = userJson['wfoSchema'];
+      final String wfoSchemaResponse = await rootBundle.loadString(
+        'lib/data/wfo_schemas.json',
+      );
+      final List<dynamic> wfoSchemas = json.decode(wfoSchemaResponse);
+
+      final WFOSchemaJson = wfoSchemas.firstWhere(
+        (schema) => schema['id'] == wfoSchemaId,
+        orElse: () => null,
+      );
+
+      userJson['wfoSchema'] = WFOSchemaJson;
+
+      // Convert the userJson to a User object
+      return User.fromJson(userJson);
+    } catch (e) {
+      print('Error loading user: $e');
+      return null;
+    }
   }
 }

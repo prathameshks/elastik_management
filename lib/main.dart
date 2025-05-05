@@ -124,8 +124,10 @@ class _MainScreenState extends State<MainScreen> {
                   });
                 },
                 icon: const Icon(Icons.edit, color: AppColors.primaryColor),
-                label: const Text('Edit Profile',
-                    style: TextStyle(color: AppColors.primaryColor)),
+                label: const Text(
+                  'Edit Profile',
+                  style: TextStyle(color: AppColors.primaryColor),
+                ),
               ),
               TextButton.icon(
                 onPressed: () {
@@ -135,8 +137,10 @@ class _MainScreenState extends State<MainScreen> {
                   });
                 },
                 icon: const Icon(Icons.logout, color: AppColors.primaryColor),
-                label: const Text('Logout',
-                    style: TextStyle(color: AppColors.primaryColor)),
+                label: const Text(
+                  'Logout',
+                  style: TextStyle(color: AppColors.primaryColor),
+                ),
               ),
             ],
           ),
@@ -149,46 +153,74 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final user = authProvider.user;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_screenTitles[_currentIndex]),
-        backgroundColor: AppColors.primaryColor,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _showProfilePopup = !_showProfilePopup;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _buildUserAvatar(user?.imageUrl),
+
+    return Stack(
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            title: Text(_screenTitles[_currentIndex]),
+            backgroundColor: AppColors.primaryColor,
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _showProfilePopup = !_showProfilePopup;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildUserAvatar(user?.imageUrl),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+          body: _getCurrentScreen(),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _currentIndex,
+            onTap: _onTabTapped,
+            selectedItemColor: AppColors.primaryColor,
+            unselectedItemColor: AppColors.secondaryColor,
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.newspaper),
+                label: 'News',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.fastfood),
+                label: 'Stock',
+              ),
+              // BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Event'),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.calendar_today),
+                label: 'WFO',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.volunteer_activism),
+                label: 'Contributions',
+              ),
+            ],
+          ),
+        ),
+        if (_showProfilePopup) ...[
+          // First add the overlay that covers the whole screen to handle taps outside
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _showProfilePopup = false;
+                });
+              },
+              // Make it transparent
+              child: Container(color: Colors.transparent),
             ),
           ),
+          // Then add the popup on top
+          _buildProfilePopup(user),
         ],
-      ),
-      body: _getCurrentScreen(),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: AppColors.secondaryColor,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.newspaper), label: 'News'),
-          BottomNavigationBarItem(icon: Icon(Icons.fastfood), label: 'Stock'),
-          // BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Event'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'WFO',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.volunteer_activism),
-            label: 'Contributions',
-          ),
-        ],
-      ),
+      ],
     );
   }
 
@@ -206,27 +238,12 @@ class _MainScreenState extends State<MainScreen> {
       } catch (e) {
         // Handle any other errors that might occur (e.g., invalid URL)
         print('Error with image URL: $e');
-        return const CircleAvatar(
-          child: Icon(Icons.person),
-        );
+        return const CircleAvatar(child: Icon(Icons.person));
       }
     } else {
       // If there's no image URL, show the default icon
-      return const CircleAvatar(
-        child: Icon(Icons.person),
-      );
+      return const CircleAvatar(child: Icon(Icons.person));
     }
-  }
-
-  @override
-  Widget buildStack(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
-    final user = authProvider.user;
-    return Stack(
-      children: [
-        if (_showProfilePopup) _buildProfilePopup(user),
-      ],
-    );
   }
 }
 
