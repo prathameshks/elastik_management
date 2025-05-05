@@ -67,7 +67,6 @@ class OverviewCardWidget extends StatelessWidget {
       int index = entry.key;
       Map<String, dynamic> item = entry.value;
       double value = item['value'] as double;
-      String label = item['label'] as String;
 
       // Assign different colors for each section (you can improve this)
       Color color = Colors.blueGrey[(index + 1) * 100] ?? Colors.blueGrey;

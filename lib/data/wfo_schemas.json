@@ -1,26 +1,33 @@
 [
   {
+    
+    "id": 0,
+    "name": "WFH",
+    "description": "Working From Home",
+    "type": "wfh"
+  },
+  {
     "id": 1,
     "name": "First Week of the Month",
-    "description": "Employees work during the first week of each month.",
+    "description": "Employees work during the first week of each month. Week Containing First Monday",
     "type": "weekInMonth"
   },
   {
     "id": 2,
     "name": "Second Week of the Month",
-    "description": "Employees work during the second week of each month.",
+    "description": "Employees work during the second week of each month. Week Containing Second Monday",
     "type": "weekInMonth"
   },
   {
     "id": 3,
     "name": "Third Week of the Month",
-    "description": "Employees work during the third week of each month.",
+    "description": "Employees work during the third week of each month. Week Starting with Third Monday",
     "type": "weekInMonth"
   },
   {
     "id": 4,
     "name": "Fourth Week of the Month",
-    "description": "Employees work during the fourth week of each month.",
+    "description": "Employees work during the fourth week of each month. Week starting with Forth Monday",
     "type": "weekInMonth"
   },
   {
