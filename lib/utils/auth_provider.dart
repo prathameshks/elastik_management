@@ -1,19 +1,20 @@
+import 'package:elastik_management/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:elastik_management/utils/auth_manager.dart';
 import 'package:elastik_management/utils/data_loader.dart';
 
 class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = false;
-  Map<String, dynamic>? _user;
+  User? _user;
 
   bool get isLoggedIn => _isLoggedIn;
-  Map<String, dynamic>? get user => _user;
+  User? get user => _user;
 
   AuthProvider() {
     _checkLoginStatus();
   }
 
-  Future<void> setUser(Map<String, dynamic> user) async {
+  Future<void> setUser(User user) async {
     _user = user;
     notifyListeners();
   }
@@ -21,11 +22,6 @@ class AuthProvider with ChangeNotifier {
   Future<void> clearUser() async {
     _user = null;
     notifyListeners();
-  }
-
-  // get logged in user details
-  Future<Map<String, dynamic>?> getLoggedInUserDetails() async {
-    return _user;
   }
 
   Future<void> _checkLoginStatus() async {
@@ -47,7 +43,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Map<String, dynamic>?> login(String email, String password) async {
+  Future<User?> login(String email, String password) async {
     final foundUser = await DataLoader.getUserByEmail(email);
     if (foundUser != null) {
       _isLoggedIn = true;

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
+import '../models/user.dart';
+
 class DailyNews {
   final int id;
   final String personName;
@@ -33,13 +35,13 @@ class DataLoader {
     return data.map((item) => DailyNews.fromJson(item)).toList();
   }
 
-  static Future<Map<String, dynamic>?> getUserByEmail(String email) async {
+  static Future<User?> getUserByEmail(String email) async {
     final String response = await rootBundle.loadString('lib/data/users.json');
     final List<dynamic> users = json.decode(response);
     return users.firstWhere(
           (user) => user['email'] == email,
           orElse: () => null,
         )
-        as Map<String, dynamic>?;
+        as User?;
   }
 }

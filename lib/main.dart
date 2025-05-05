@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:elastik_management/models/user.dart';
 import 'package:elastik_management/utils/auth_provider.dart';
 import 'package:elastik_management/screens/home_screen.dart';
 import 'package:elastik_management/screens/login_screen.dart';
 import 'package:elastik_management/screens/news_screen.dart';
 import 'package:elastik_management/screens/stock_screen.dart';
-// import 'package:elastik_management/screens/event_screen.dart';
 import 'package:elastik_management/screens/wfo_schedule_screen.dart';
 import 'package:elastik_management/screens/contributions_screen.dart';
 import 'package:elastik_management/utils/constants.dart';
-import 'package:elastik_management/screens/splash_screen.dart'; // Ensure this is correctly imported
+import 'package:elastik_management/screens/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +53,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0; // Index for bottom navigation (0=Home)
 
+  bool _showProfilePopup = false;
   final List<String> _screenTitles = [
     'Elastik Internal',
     'News Remainder',
@@ -86,18 +87,83 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  Widget _buildProfilePopup(User? user) {
+    return Positioned(
+      top: 60,
+      right: 10,
+      child: Material(
+        elevation: 5,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          width: 250,
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text(user?.name ?? 'User Name'),
+                subtitle: Text(user?.email ?? 'user@example.com'),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(user?.designation ?? 'Designation'),
+              ),
+              const Divider(),
+              TextButton.icon(
+                onPressed: () {
+                  // Handle edit profile action
+                  print('Edit profile tapped');
+                  setState(() {
+                    _showProfilePopup = false;
+                  });
+                },
+                icon: const Icon(Icons.edit, color: AppColors.primaryColor),
+                label: const Text('Edit Profile',
+                    style: TextStyle(color: AppColors.primaryColor)),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  context.read<AuthProvider>().logout();
+                  setState(() {
+                    _showProfilePopup = false;
+                  });
+                },
+                icon: const Icon(Icons.logout, color: AppColors.primaryColor),
+                label: const Text('Logout',
+                    style: TextStyle(color: AppColors.primaryColor)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
     return Scaffold(
       appBar: AppBar(
         title: Text(_screenTitles[_currentIndex]),
         backgroundColor: AppColors.primaryColor,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthProvider>().logout();
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _showProfilePopup = !_showProfilePopup;
+              });
             },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildUserAvatar(user?.imageUrl),
+            ),
           ),
         ],
       ),
@@ -123,6 +189,43 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildUserAvatar(String? imageUrl) {
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      // Attempt to load the image from the network
+      try {
+        return CircleAvatar(
+          backgroundImage: NetworkImage(imageUrl),
+          onBackgroundImageError: (exception, stackTrace) {
+            // Handle image loading errors by showing a default icon
+            print('Error loading image: $exception');
+          },
+        );
+      } catch (e) {
+        // Handle any other errors that might occur (e.g., invalid URL)
+        print('Error with image URL: $e');
+        return const CircleAvatar(
+          child: Icon(Icons.person),
+        );
+      }
+    } else {
+      // If there's no image URL, show the default icon
+      return const CircleAvatar(
+        child: Icon(Icons.person),
+      );
+    }
+  }
+
+  @override
+  Widget buildStack(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final user = authProvider.user;
+    return Stack(
+      children: [
+        if (_showProfilePopup) _buildProfilePopup(user),
+      ],
     );
   }
 }
