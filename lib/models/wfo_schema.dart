@@ -1,5 +1,4 @@
 import '../interfaces/schema_type.dart';
-import '../utils/data_loader.dart';
 
 class WFOSchema {
   final int id;
@@ -33,9 +32,9 @@ class WFOSchema {
   static WFOSchema defaultSchema() {
     return WFOSchema(
       id: 0,
-      name: 'Default',
-      description: '',
-      type: SchemaType.specificDate,
+      name: 'WFH',
+      description: 'Working From Home',
+      type: SchemaType.wfh,
     );
   }
 }

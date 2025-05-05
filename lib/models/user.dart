@@ -27,12 +27,7 @@ class User {
       email: json['email'],
       imageUrl: json['imageUrl'],
       role: json['role'],
-      wfoSchema: WFOSchema.fromJson({
-        "id": 5,
-        "name": "Mondays",
-        "description": "Employees work every Monday.",
-        "type": "dayInWeek",
-      }),
+      wfoSchema: WFOSchema.fromJson(json['wfoSchema']),
     );
   }
 }

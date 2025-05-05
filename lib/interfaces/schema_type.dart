@@ -1,1 +1,1 @@
-enum SchemaType { weekInMonth, dayInWeek, specificDate }
+enum SchemaType { weekInMonth, dayInWeek, specificDate,wfh }

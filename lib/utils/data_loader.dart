@@ -141,6 +141,23 @@ class DataLoader {
       final String response = await _readJsonData('lib/data/users.json');
       final List<dynamic> users = json.decode(response);
       final userJson = users.firstWhere((user) => user['id'] == id);
+
+      if (userJson == null) return null;
+
+      // get WFO Schema BY ID and add to Json
+      final wfoSchemaId = userJson['wfoSchema'];
+      final String wfoSchemaResponse = await _readJsonData(
+        'lib/data/wfo_schemas.json',
+      );
+      final List<dynamic> wfoSchemas = json.decode(wfoSchemaResponse);
+
+      final WFOSchemaJson = wfoSchemas.firstWhere(
+        (schema) => schema['id'] == wfoSchemaId,
+        orElse: () => null,
+      );
+
+      userJson['wfoSchema'] = WFOSchemaJson;
+
       return User.fromJson(userJson);
     } catch (e) {
       print('Error getting user by id: $e');
