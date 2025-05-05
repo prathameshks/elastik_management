@@ -94,13 +94,18 @@ class _WfoScheduleScreenState extends State<WfoScheduleScreen> {
   }
 
   Widget _buildUserCard(User user) {
-    // Build a user card to display user information
+    // Enhanced user card with more user information
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        // Display the user's name
-        child: Text(user.name),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundImage:
+              user.imageUrl.isNotEmpty
+                  ? NetworkImage(user.imageUrl) as ImageProvider
+                  : const AssetImage('assets/images/default_avatar.png'),
+        ),
+        title: Text(user.name),
+        subtitle: Text(user.designation),
       ),
     );
   }

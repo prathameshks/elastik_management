@@ -37,4 +37,13 @@ class WFOSchema {
       type: SchemaType.wfh,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is WFOSchema && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

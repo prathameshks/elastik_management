@@ -67,6 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = context.read<AuthProvider>().user;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -94,6 +96,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                       : const Center(child: Text("No News Today")),
             ),
+
+            const SizedBox(height: 16),
+
+            if (currentUser != null)
+              Card(
+                margin: const EdgeInsets.only(bottom: 16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.schedule, color: Colors.blue),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Your WFO Schedule',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                      _buildInfoRow('Schema:', currentUser.wfoSchema.name),
+                      _buildInfoRow(
+                        'Type:',
+                        currentUser.wfoSchema.type.toString().split('.').last,
+                      ),
+                      _buildInfoRow(
+                        'Description:',
+                        currentUser.wfoSchema.description,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
             const SizedBox(height: 16),
 
@@ -179,6 +219,33 @@ class _HomeScreenState extends State<HomeScreen> {
     return Text(
       'Unavailable Essential and Hygiene Items:\n ${unavailableItems.map((item) => item.name).join(', ')}',
       style: const TextStyle(fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 100,
+            child: Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

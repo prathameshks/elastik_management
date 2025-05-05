@@ -48,22 +48,57 @@ class DataLoader {
   static Future<Map<WFOSchema, List<User>>> loadUsersForWfoSchedule() async {
     final String usersResponse = await _readJsonData('lib/data/users.json');
     final List<dynamic> usersData = json.decode(usersResponse);
-    final List<User> allUsers = usersData.map((item) => User.fromJson(item)).toList();
 
-    final List<WFOSchema> wfoSchemas = await loadWFOSchemas();
+    // Load all WFO schemas first
+    final String wfoSchemaResponse = await _readJsonData(
+      'lib/data/wfo_schemas.json',
+    );
+    final List<dynamic> wfoSchemasData = json.decode(wfoSchemaResponse);
+    final List<WFOSchema> wfoSchemas =
+        wfoSchemasData.map((item) => WFOSchema.fromJson(item)).toList();
+
+    // Process each user JSON to include the full WFOSchema object
+    List<User> allUsers = [];
+    for (var userJson in usersData) {
+      // get WFO Schema by ID and add to JSON
+      final wfoSchemaId = userJson['wfoSchema'];
+
+      final WFOSchemaJson = wfoSchemasData.firstWhere(
+        (schema) => schema['id'] == wfoSchemaId,
+        orElse: () => null,
+      );
+
+      if (WFOSchemaJson != null) {
+        // Replace the ID with the full schema object
+        userJson['wfoSchema'] = WFOSchemaJson;
+
+        // Now create the User object with the proper schema
+        allUsers.add(User.fromJson(userJson));
+      } else {
+        print(
+          'Warning: WFO Schema not found for user ${userJson['name']} with ID $wfoSchemaId',
+        );
+      }
+    }
+
+    // Group users by schema
     final Map<WFOSchema, List<User>> usersBySchema = {};
 
+    // Initialize the map with empty lists for each schema
     for (var schema in wfoSchemas) {
       usersBySchema[schema] = [];
     }
 
+    // Add users to their respective schema lists
     for (var user in allUsers) {
-      final WFOSchema? userSchema = wfoSchemas.firstWhere((s) => s.id == user.wfoSchema, orElse: () => WFOSchema.defaultSchema());
-      if (userSchema != null) {
-        usersBySchema[userSchema]!.add(user);
-      }
+      final schemaMatch = wfoSchemas.firstWhere(
+        (schema) => schema.id == user.wfoSchema.id,
+        orElse: () => WFOSchema.defaultSchema(),
+      );
+
+      usersBySchema[schemaMatch]?.add(user);
     }
-    
+
     return usersBySchema;
   }
 
