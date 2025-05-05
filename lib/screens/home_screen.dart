@@ -67,49 +67,69 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.only(left: 12.0),
-            child: Text(
-              "Today's News Turn",
-              style: TextStyle(fontWeight: FontWeight.bold),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.only(left: 12.0),
+              child: Text(
+                "Today's News Turn",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          _dailyNews.isNotEmpty
-              ? NewsCard(
-                personName: _dailyNews.first.personName,
-                imageUrl: _dailyNews.first.imageUrl,
-                date: _dailyNews.first.date,
-              )
-              : const Center(child: Text("No News Today")),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: OverviewCardWidget(
-                  title: 'Snacks Overview',
-                  data: _getStockStatusBreakdown(),
-                ),
-              ),
 
-              ..._buildUnavailableItemsList(),
+            // News card
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 8.0),
+              child:
+                  _dailyNews.isNotEmpty
+                      ? NewsCard(
+                        personName: _dailyNews.first.personName,
+                        imageUrl: _dailyNews.first.imageUrl,
+                        date: _dailyNews.first.date,
+                      )
+                      : const Center(child: Text("No News Today")),
+            ),
 
-              const SizedBox(width: 16),
-              Expanded(
-                child: OverviewCardWidget(
-                  title: 'Contributions Overview',
-                  data: _getContributionStatusBreakdown(),
-                ),
+            const SizedBox(height: 16),
+
+            _unavailableEssentialItems.isNotEmpty
+                ? Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: _buildUnavailableItemsList(),
+                )
+                : const SizedBox(),
+
+            // Replace Expanded with fixed height Container for first chart
+            Container(
+              height: 350, // Fixed height instead of Expanded
+              child: OverviewCardWidget(
+                title: 'Snacks Overview',
+                data: _getStockStatusBreakdown(),
+                chartHeight: 220,
               ),
-            ],
-          ),
-        ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // Replace Expanded with fixed height Container for second chart
+            Container(
+              height: 300, // Fixed height instead of Expanded
+              child: OverviewCardWidget(
+                title: 'Contributions Overview',
+                data: _getContributionStatusBreakdown(),
+                chartHeight: 220,
+              ),
+            ),
+
+            // Add space at bottom for better scrolling experience
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
@@ -148,22 +168,17 @@ class _HomeScreenState extends State<HomeScreen> {
           (item) =>
               (item.category == StockCategory.essentials ||
                   item.category == StockCategory.hygiene) &&
-              item.status == StockStatus.unavailable,
+              (item.status == StockStatus.unavailable ||
+                  item.status == StockStatus.needsRefill),
         )
         .toList();
   }
 
-  List<Widget> _buildUnavailableItemsList() {
+  Widget _buildUnavailableItemsList() {
     final unavailableItems = _unavailableEssentialItems;
-    if (unavailableItems.isEmpty) {
-      return [];
-    }
-    return [
-      const Text(
-        'Unavailable Essential and Hygiene Items:',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      ...unavailableItems.map((item) => Text('- ${item.name}')).toList(),
-    ];
+    return Text(
+      'Unavailable Essential and Hygiene Items:\n ${unavailableItems.map((item) => item.name).join(', ')}',
+      style: const TextStyle(fontWeight: FontWeight.bold),
+    );
   }
 }

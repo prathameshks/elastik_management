@@ -4,18 +4,19 @@ import 'package:fl_chart/fl_chart.dart'; // Using fl_chart as an example
 class OverviewCardWidget extends StatelessWidget {
   final String title;
   final List<Map<String, dynamic>> data;
+  final double? chartHeight; // Add this parameter
 
   const OverviewCardWidget({
     Key? key,
     required this.title,
     required this.data,
+    this.chartHeight, // Optional parameter
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
-      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+      elevation: 4,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -23,20 +24,22 @@ class OverviewCardWidget extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 16.0),
-            AspectRatio(
-              aspectRatio: 1.5,
-              child: PieChart(
-                PieChartData(
-                  sectionsSpace: 2,
-                  centerSpaceRadius: 40,
-                  sections: _buildPieChartSections(),
-                ),
+            const SizedBox(height: 8),
+            Expanded(
+              child: Container(
+                height: chartHeight, // Use the height if provided
+                child:
+                    data.isEmpty
+                        ? const Center(child: Text('No data available'))
+                        : PieChart(
+                          PieChartData(
+                            sectionsSpace: 2,
+                            centerSpaceRadius: 40,
+                            sections: _buildPieChartSections(),
+                          ),
+                        ),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -55,7 +58,10 @@ class OverviewCardWidget extends StatelessWidget {
       return [];
     }
 
-    double totalValue = data.fold(0.0, (sum, item) => sum + (item['value'] as double));
+    double totalValue = data.fold(
+      0.0,
+      (sum, item) => sum + (item['value'] as double),
+    );
 
     return data.asMap().entries.map((entry) {
       int index = entry.key;
@@ -68,7 +74,6 @@ class OverviewCardWidget extends StatelessWidget {
       if (index == 0) color = Colors.blue;
       if (index == 1) color = Colors.green;
       if (index == 2) color = Colors.orange;
-
 
       return PieChartSectionData(
         color: color,
@@ -91,22 +96,17 @@ class OverviewCardWidget extends StatelessWidget {
 
       // Find the corresponding color from the pie chart sections (basic approach)
       Color legendColor = Colors.blueGrey; // Default color
-       int index = data.indexOf(item);
-       legendColor = Colors.blueGrey[(index + 1) * 100] ?? Colors.blueGrey;
-        if (index == 0) legendColor = Colors.blue;
-        if (index == 1) legendColor = Colors.green;
-        if (index == 2) legendColor = Colors.orange;
-
+      int index = data.indexOf(item);
+      legendColor = Colors.blueGrey[(index + 1) * 100] ?? Colors.blueGrey;
+      if (index == 0) legendColor = Colors.blue;
+      if (index == 1) legendColor = Colors.green;
+      if (index == 2) legendColor = Colors.orange;
 
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: Row(
           children: [
-            Container(
-              width: 16,
-              height: 16,
-              color: legendColor,
-            ),
+            Container(width: 16, height: 16, color: legendColor),
             const SizedBox(width: 8.0),
             Text('$label: ${value.toStringAsFixed(2)}'),
           ],
