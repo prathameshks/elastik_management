@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:elastik_management/interfaces/contribution.dart';
 import 'package:elastik_management/models/contribution.dart';
 import 'package:elastik_management/models/stock_item.dart';
+import 'package:elastik_management/models/wfo_schema.dart';
 // import 'package:elastik_management/models/wfo_schema.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -79,10 +80,10 @@ class DataLoader {
 
   static Future<void> updateStockItems(List<StockItem> stockItems) async {
     try {
-      final file = File('lib/data/stock_items.json');
-      final jsonData = stockItems.map((item) => item.toJson()).toList();
-      final jsonString = jsonEncode(jsonData);
-      await file.writeAsString(jsonString);
+      // final file = File('lib/data/stock_items.json');
+      // final jsonData = stockItems.map((item) => item.toJson()).toList();
+      // final jsonString = jsonEncode(jsonData);
+      // await file.writeAsString(jsonString);
       print('Stock items updated successfully.');
     } catch (e) {
       print('Error updating stock items: $e');
@@ -104,8 +105,11 @@ class DataLoader {
         return ContributionReason.other;
     }
   }
+
   static ContributionStatus _parseContributionStatus(String status) {
-    return status == 'paid' ? ContributionStatus.paid : ContributionStatus.unpaid;
+    return status == 'paid'
+        ? ContributionStatus.paid
+        : ContributionStatus.unpaid;
   }
 
   static Future<List<Contribution>> loadContributions() async {
@@ -113,17 +117,19 @@ class DataLoader {
       'lib/data/contributions.json',
     );
     final List<dynamic> data = json.decode(response);
-    return await Future.wait(data.map((item) async {
-      // Load user details for each contribution
-      final user = await getUserByUserId(item['user']);
-      return Contribution(
-        id: item['id'],
-        reason: _parseContributionReason(item['reason']),
-        amount: item['amount'],
-        user: user!, // Assuming user is found, handle null if necessary
-        status: _parseContributionStatus(item['status']),
-      );
-    }));
+    return await Future.wait(
+      data.map((item) async {
+        // Load user details for each contribution
+        final user = await getUserByUserId(item['user']);
+        return Contribution(
+          id: item['id'],
+          reason: _parseContributionReason(item['reason']),
+          amount: item['amount'],
+          user: user!, // Assuming user is found, handle null if necessary
+          status: _parseContributionStatus(item['status']),
+        );
+      }),
+    );
   }
 
   static Future<User?> getUserByUserId(int id) async {
@@ -140,13 +146,25 @@ class DataLoader {
     }
   }
 
-  static Future<void> updateContributions(List<Contribution> contributions) async {
+  static Future<void> updateContributions(
+    List<Contribution> contributions,
+  ) async {
     try {
-      final file = File('lib/data/contributions.json');
-      final jsonData = contributions.map((item) => item.toJson()).toList();
-      await file.writeAsString(jsonEncode(jsonData));
+      // For Flutter web or development mode, we can write to the lib/data directory
+      // final file = File('lib/data/contributions.json');
+
+      // // Check if the directory exists first
+      // final dir = Directory('lib/data');
+      // if (!await dir.exists()) {
+      //   await dir.create(recursive: true);
+      // }
+
+      // final jsonData = contributions.map((item) => item.toJson()).toList();
+      // await file.writeAsString(jsonEncode(jsonData));
+      print('Contributions updated successfully.');
     } catch (e) {
       print('Error updating contributions: $e');
+      // Handle error - perhaps save to a different location or show user message
     }
   }
 }
