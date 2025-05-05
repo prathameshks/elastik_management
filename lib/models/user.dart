@@ -20,20 +20,19 @@ class User {
     required this.wfoSchema,
   });
   factory User.fromJson(Map<String, dynamic> json) {
-    try {
-      return User(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        designation: json['designation'] as String,
-        email: json['email'] as String,
-        imageUrl: json['imageUrl'] as String,
-        role: json['role'] as String,
-        wfoSchema: WFOSchema.fromJson(
-          json['wfoSchema'] as Map<String, dynamic>,
-        ),
-      );
-    } catch (e) {
-      throw TypeError();
-    }
+    return User(
+      id: json['id'],
+      name: json['name'],
+      designation: json['designation'],
+      email: json['email'],
+      imageUrl: json['imageUrl'],
+      role: json['role'],
+      wfoSchema: WFOSchema.fromJson({
+        "id": 5,
+        "name": "Mondays",
+        "description": "Employees work every Monday.",
+        "type": "dayInWeek",
+      }),
+    );
   }
 }

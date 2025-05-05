@@ -7,7 +7,7 @@ import 'package:elastik_management/screens/login_screen.dart';
 import 'package:elastik_management/screens/news_screen.dart';
 import 'package:elastik_management/screens/stock_screen.dart';
 import 'package:elastik_management/screens/wfo_schedule_screen.dart';
-import 'package:elastik_management/screens/contributions_screen.dart';
+import 'package:elastik_management/screens/contribution_screen.dart';
 import 'package:elastik_management/utils/constants.dart';
 import 'package:elastik_management/screens/splash_screen.dart';
 
@@ -81,7 +81,7 @@ class _MainScreenState extends State<MainScreen> {
       case 3:
         return const WfoScheduleScreen();
       case 4:
-        return const ContributionsScreen();
+        return const ContributionScreen();
       default:
         return const HomeScreen();
     }

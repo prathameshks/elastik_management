@@ -41,7 +41,7 @@ class ContributionItemDisplayWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    'Amount: \$${contribution.amount.toStringAsFixed(2)}',
+                    'Amount: ₹ ${contribution.amount.toStringAsFixed(2)}',
                     style: TextStyle(fontSize: 14.0),
                   ),
                   const SizedBox(height: 4.0),

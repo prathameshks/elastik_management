@@ -181,14 +181,14 @@ class _ContributionScreenState extends State<ContributionScreen> {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               height: 50,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    Container(
-                      width: 185,
+                    SizedBox(
+                      width: 190,
                       child: MultiDropdown<ContributionReason>(
                         items: reasonItems,
                         controller: reasonController,
@@ -209,8 +209,8 @@ class _ContributionScreenState extends State<ContributionScreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Container(
-                      width: 185,
+                    SizedBox(
+                      width: 150,
                       child: MultiDropdown<ContributionStatus>(
                         items: statusItems,
                         controller: statusController,
