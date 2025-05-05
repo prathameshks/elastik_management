@@ -60,4 +60,8 @@ class AuthProvider with ChangeNotifier {
     clearUser();
     notifyListeners();
   }
+
+  Future<bool> isAdmin() async {
+    return _user?.role == "admin";
+  }
 }

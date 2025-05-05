@@ -13,6 +13,6 @@ class Contribution {
     required this.id,
     required this.reason,
     required this.amount,
-    required this.user,
+    required this.user, required ContributionStatus status,
   });
 }
