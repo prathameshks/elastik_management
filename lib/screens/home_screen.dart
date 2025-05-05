@@ -26,9 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _loadNews() async {
     List<DailyNews> news = await DataLoader.loadDailyNews();
-    setState(() {
-      _dailyNews = news;
-    });
+    if (mounted) {
+      // Add this check to prevent setState after disposal
+      setState(() {
+        _dailyNews = news;
+      });
+    }
   }
 
   @override
@@ -46,18 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          _dailyNews.isNotEmpty 
+          _dailyNews.isNotEmpty
               ? NewsCard(
-                  personName: _dailyNews.first.personName,
-                  imageUrl: _dailyNews.first.imageUrl,
-                  date: _dailyNews.first.date,
-                )
-              : const Center(
-                  child: Text("No News Today"),
-                ),
+                personName: _dailyNews.first.personName,
+                imageUrl: _dailyNews.first.imageUrl,
+                date: _dailyNews.first.date,
+              )
+              : const Center(child: Text("No News Today")),
         ],
       ),
     );
   }
 }
-

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:elastik_management/interfaces/stocks.dart';
+// import 'package:elastik_management/interfaces/stocks.dart';
 import 'package:elastik_management/models/stock_item.dart';
 
 class StockItemDisplayWidget extends StatelessWidget {
@@ -33,44 +33,34 @@ class StockItemDisplayWidget extends StatelessWidget {
             const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Category: ${stockItem.category.name}'),
                     const SizedBox(height: 4.0),
-                    Row(
-                      children: [
-                        const Text('Status: '),
-                        DropdownButton<StockStatus>(
-                          value: stockItem.status,
-                          items: StockStatus.values.map((StockStatus status) {
-                            return DropdownMenuItem(
-                              value: status,
-                              child: Text(status.name),
-                            );
-                          }).toList(),
-                          onChanged: null, // Status is displayed, not edited here
-                        ),
-                      ],
-                    ),
+                    Text('Availability Status: ${stockItem.status.name}'),
+                    // Row(
+                    //   children: [
+                    //     const Text('Status: '),
+                    //     DropdownButton<StockStatus>(
+                    //       value: stockItem.status,
+                    //       items: StockStatus.values.map((StockStatus status) {
+                    //         return DropdownMenuItem(
+                    //           value: status,
+                    //           child: Text(status.name),
+                    //         );
+                    //       }).toList(),
+                    //       onChanged: null, // Status is displayed, not edited here
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(height: 4.0),
                     Row(
                       children: [
                         const Text('Quantity: '),
-                        SizedBox(
-                          width: 50,
-                          child: TextField(
-                            readOnly: true, // Quantity is displayed, not edited here
-                            controller: TextEditingController(text: stockItem.quantity.toString()),
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              isDense: true,
-                              contentPadding: EdgeInsets.zero,
-                            ),
-                          ),
-                        ),
+                        Text(stockItem.quantity.toString()),
                       ],
                     ),
                   ],
@@ -78,6 +68,11 @@ class StockItemDisplayWidget extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: onEdit,
+                  style: ButtonStyle(
+                    backgroundColor: const WidgetStatePropertyAll<Color>(
+                      Color.fromARGB(190, 204, 204, 204),
+                    ),
+                  ),
                 ),
               ],
             ),

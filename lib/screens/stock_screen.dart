@@ -1,3 +1,4 @@
+import 'package:elastik_management/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:elastik_management/widgets/stock_item_display_widget.dart';
@@ -7,7 +8,7 @@ import '../models/stock_item.dart';
 import '../utils/data_loader.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'dart:convert';
-  
+
 class StockScreen extends StatefulWidget {
   const StockScreen({super.key});
 
@@ -16,12 +17,14 @@ class StockScreen extends StatefulWidget {
 }
 
 class _StockScreenState extends State<StockScreen> {
-  List<StockItem> _stockItems = [];  
+  List<StockItem> _stockItems = [];
   List<StockItem> _filteredStockItems = [];
   bool _isAscending = true;
-  final ValueNotifier<List<StockCategory>> _selectedCategories = ValueNotifier<List<StockCategory>>([]);
-  final ValueNotifier<List<StockStatus>> _selectedStatuses = ValueNotifier<List<StockStatus>>([]);
   final Map<int, Widget> _itemWidgets = {};
+
+  // Create controllers for both dropdowns
+  final categoryController = MultiSelectController<StockCategory>();
+  final statusController = MultiSelectController<StockStatus>();
 
   @override
   void initState() {
@@ -29,29 +32,63 @@ class _StockScreenState extends State<StockScreen> {
     _loadStockData();
   }
 
+  @override
+  void dispose() {
+    categoryController.dispose();
+    statusController.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadStockData() async {
-    String jsonString = await rootBundle.loadString('lib/data/stock_items.json');
+    String jsonString = await rootBundle.loadString(
+      'lib/data/stock_items.json',
+    );
     List<dynamic> data = jsonDecode(jsonString);
-    _stockItems = data.map((item) => StockItem.fromJson(item as Map<String, dynamic>)).toList();
-    _filteredStockItems = List.from(_stockItems);    
+    _stockItems =
+        data
+            .map((item) => StockItem.fromJson(item as Map<String, dynamic>))
+            .toList();
+    _filteredStockItems = List.from(_stockItems);
     _updateItemWidgets();
     setState(() {});
   }
 
   void _filterItems() {
-    _filteredStockItems = _stockItems.where((item) {
-      return _selectedCategories.value.contains(item.category) &&
-          _selectedStatuses.value.contains(item.status); 
-    }).toList();
-    _updateItemWidgets();
-    setState(() {});
+    setState(() {
+      _filteredStockItems =
+          _stockItems.where((item) {
+            // If no categories selected, don't filter by category
+            bool categoryMatch =
+                categoryController.selectedItems.isEmpty ||
+                categoryController.selectedItems.any(
+                  (element) => element.value == item.category,
+                );
+
+            // If no statuses selected, don't filter by status
+            bool statusMatch =
+                statusController.selectedItems.isEmpty ||
+                statusController.selectedItems.any(
+                  (element) => element.value == item.status,
+                );
+
+            return categoryMatch && statusMatch;
+          }).toList();
+
+      _updateItemWidgets();
+    });
   }
 
   void _sortItems() {
-    _filteredStockItems.sort((a, b) => _isAscending ? a.quantity.compareTo(b.quantity) : b.quantity.compareTo(a.quantity));
-    _isAscending = !_isAscending;
-    _updateItemWidgets();
-    setState(() {});
+    setState(() {
+      _filteredStockItems.sort(
+        (a, b) =>
+            _isAscending
+                ? a.quantity.compareTo(b.quantity)
+                : b.quantity.compareTo(a.quantity),
+      );
+      _isAscending = !_isAscending;
+      _updateItemWidgets();
+    });
   }
 
   void _updateItemWidgets() {
@@ -60,7 +97,6 @@ class _StockScreenState extends State<StockScreen> {
       _itemWidgets[item.id] = StockItemDisplayWidget(
         stockItem: item,
         onEdit: () => _switchToEditWidget(item),
-        
       );
     }
   }
@@ -69,9 +105,12 @@ class _StockScreenState extends State<StockScreen> {
     setState(() {
       _itemWidgets[item.id] = StockItemEditWidget(
         stockItem: item,
-        onCancel: (){
-           _itemWidgets[item.id] = StockItemDisplayWidget(stockItem: item,onEdit: () => _switchToEditWidget(item));
-           setState(() { });
+        onCancel: () {
+          _itemWidgets[item.id] = StockItemDisplayWidget(
+            stockItem: item,
+            onEdit: () => _switchToEditWidget(item),
+          );
+          setState(() {});
         },
         onSave: (updatedItem) => _updateStockItem(updatedItem),
       );
@@ -96,41 +135,136 @@ class _StockScreenState extends State<StockScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Create dropdown items for categories
+    final categoryItems =
+        StockCategory.values
+            .map(
+              (category) => DropdownItem<StockCategory>(
+                label: category.name,
+                value: category,
+              ),
+            )
+            .toList();
+
+    // Create dropdown items for statuses
+    final statusItems =
+        StockStatus.values
+            .map(
+              (status) =>
+                  DropdownItem<StockStatus>(label: status.name, value: status),
+            )
+            .toList();
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Stock Management')),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: ValueListenableBuilder<List<StockCategory>>(
-                    valueListenable: _selectedCategories,
-                    builder: (context, value, child) => MultiDropDown(
-                      onOptionSelected: (List<ValueItem> selected) {
-                       _selectedCategories.value = selected.map((e) => StockCategory.values.byName(e.value)).toList();
-                        _filterItems();
-                      },
-                      options: StockCategory.values.map((e) => ValueItem(label: e.name, value: e.name)).toList(),
-                      selectionType: SelectionType.multi,
-                    ),
-                  ),
-                ), Expanded(
-                  child: ValueListenableBuilder<List<StockStatus>>(
-                      valueListenable: _selectedStatuses,
-                      builder: (context, value, child) => MultiSelectDropDown(
-                        onOptionSelected: (List<DropdownItem> selected) {
-                          _selectedStatuses.value = selected.map((e) => StockStatus.values.byName(e.value)).toList();
-                          _filterItems();
-                        },
-                        options: StockStatus.values.map((e) => ValueItem(label: e.name, value: e.name)).toList(),
-                        selectionType: SelectionType.multi,
-                      )),
+            // Filters header with consistent styling
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.0),
+              child: Text(
+                "Filters",
+                style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
                 ),
-                IconButton(onPressed: _sortItems, icon: const Icon(Icons.sort)),
-              ],
+              ),
             ),
+
+            // Horizontally scrollable filter row
+            Container(
+              height: 50, // Fixed height to prevent vertical overflow
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    // Category dropdown - no need for Expanded in scrollable row
+                    Container(
+                      width:
+                          185, // Fixed width that's comfortable for the content
+                      child: MultiDropdown<StockCategory>(
+                        items: categoryItems,
+                        controller: categoryController,
+                        enabled: true,
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Category',
+                          hintStyle: TextStyle(fontSize: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                        ),
+                        onSelectionChange: (selectedItems) => _filterItems(),
+                      ),
+                    ),
+
+                    const SizedBox(width: 10),
+
+                    // Status dropdown - no need for Expanded in scrollable row
+                    Container(
+                      width:
+                          185, // Fixed width that's comfortable for the content
+                      child: MultiDropdown<StockStatus>(
+                        items: statusItems,
+                        controller: statusController,
+                        enabled: true,
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Status',
+                          hintStyle: TextStyle(fontSize: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.grey.shade300),
+                          ),
+                        ),
+                        onSelectionChange: (selectedItems) => _filterItems(),
+                      ),
+                    ),
+
+                    const SizedBox(width: 10),
+
+                    // Sort button with label - more space now
+                    GestureDetector(
+                      onTap: _sortItems, // Connect to existing sort method
+                      child: Container(
+                        height: 50,
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text("Quantity", style: TextStyle(fontSize: 12)),
+                            const SizedBox(width: 4),
+                            // Show different icon based on sort direction
+                            Icon(
+                              _isAscending
+                                  ? Icons.arrow_upward
+                                  : Icons.arrow_downward,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
             Expanded(child: ListView(children: _itemWidgets.values.toList())),
           ],
         ),
