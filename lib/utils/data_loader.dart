@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:elastik_management/models/stock_item.dart';
 import 'package:elastik_management/interfaces/contribution.dart';
 import 'package:elastik_management/models/contribution.dart';
-import 'package:elastik_management/models/stock_item.dart';
 // import 'package:elastik_management/models/wfo_schema.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:elastik_management/models/user.dart';
+import '../models/user.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DailyNews {
@@ -74,12 +74,11 @@ class DataLoader {
   }
 
   static Future<void> updateStockItems(List<StockItem> stockItems) async {
+    // Get the document directory path
+    final directory = await getApplicationDocumentsDirectory();
+    final path = '${directory.path}/stock_items.json';
+    final file = File(path);
     try {
-      // Get the document directory path
-      final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/stock_items.json';
-      final file = File(path);
-
       // Convert items to JSON and save to the file
       final jsonData = stockItems.map((item) => item.toJson()).toList();
       final jsonString = jsonEncode(jsonData);
@@ -190,6 +189,12 @@ class DataLoader {
     } catch (e) {
       print('Could not copy to app bundle: $e');
     }
+  }
+
+  static Future<List<StockItem>> loadStockItems() async {
+    final String response = await _readJsonData('lib/data/stock_items.json');
+    final List<dynamic> data = json.decode(response);
+    return data.map((item) => StockItem.fromJson(item)).toList();
   }
 
   // Replace the existing _readJsonData method with this improved version:
