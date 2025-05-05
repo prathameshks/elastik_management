@@ -1,5 +1,7 @@
 import 'dart:convert';
-// import 'package:elastik_management/models/wfo_schema.dart';
+import 'dart:io';
+import 'package:elastik_management/models/stock_item.dart';
+import 'package:elastik_management/models/wfo_schema.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../models/user.dart';
@@ -72,4 +74,20 @@ class DataLoader {
       return null;
     }
   }
+
+  static Future<void> updateStockItems(List<StockItem> stockItems) async {
+    try {
+      final file = File('lib/data/stock_items.json');
+      final jsonData = stockItems.map((item) => item.toJson()).toList();
+      final jsonString = jsonEncode(jsonData);
+      await file.writeAsString(jsonString);
+      print('Stock items updated successfully.');
+    } catch (e) {
+      print('Error updating stock items: $e');
+      // Handle the error appropriately, e.g., show an error message to the user
+    }
+  }
+
+
+
 }
