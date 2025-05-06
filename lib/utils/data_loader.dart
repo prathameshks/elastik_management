@@ -107,7 +107,7 @@ class DataLoader {
       final String response = await _readJsonData('lib/data/users.json');
       final List<dynamic> users = json.decode(response);
       final userJson = users.firstWhere(
-        (user) => user['email'] == email,
+        (user) => user['email'].toLowerCase() == email.toLowerCase(),
         orElse: () => null,
       );
 
