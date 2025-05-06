@@ -13,8 +13,31 @@ Elastik Teams Office Management is a comprehensive office administration applica
 - **Home Screen:** To give overview of all the functionality with accurate information
 
 ## Tech Stack
-    - Flutter
-    - Dart
+- Flutter
+- Dart
+
+## Getting Started
+0. Prerequisites: 
+    
+    Ensure you have Flutter and Dart installed on your machine. You can follow the official Flutter installation guide [here](https://flutter.dev/docs/get-started/install) and a Code Editor of your choice (e.g., Visual Studio Code, Android Studio).
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/prathameshks/elastik_management.git
+    ```
+2. Navigate to the project directory: 
+    ```bash 
+    cd elastik_management
+    ```
+3. Install dependencies: 
+    ```bash
+    flutter pub get
+    ```
+4. Run the application: 
+    ```bash
+    flutter run
+    ```
+5. Access the application on your device or emulator
 
 ## Future Enhancements
 - **Actual Realtime API:** Implement a real-time API to provide instant updates on office resources, employee attendance, and community contributions, Use WebSockets or similar technology for real-time communication
