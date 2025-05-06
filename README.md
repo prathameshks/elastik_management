@@ -19,7 +19,7 @@ Elastik Teams Office Management is a comprehensive office administration applica
 ## Getting Started
 0. Prerequisites: 
     
-    Ensure you have Flutter and Dart installed on your machine. You can follow the official Flutter installation guide [here](https://flutter.dev/docs/get-started/install) and a Code Editor of your choice (e.g., Visual Studio Code, Android Studio).
+    Ensure you have Flutter and Dart installed on your machine. You can follow the official [Flutter installation guide](https://flutter.dev/docs/get-started/install) and a Code Editor of your choice (e.g., [Visual Studio Code](https://code.visualstudio.com/), [Android Studio](https://developer.android.com/studio)).
 
 1. Clone the repository:
     ```bash
@@ -50,5 +50,7 @@ Elastik Teams Office Management is a comprehensive office administration applica
 
 ---
 
-![Elastik Teams](https://raw.githubusercontent.com/prathameshks/elastik_management/refs/heads/main/assets/images/ET_logo_text.png)
+[![Elastik Teams](https://raw.githubusercontent.com/prathameshks/elastik_management/refs/heads/main/assets/images/ET_logo_text.png)](https://www.elastikteams.com)
+
+Made with ❤️ by [Prathamesh Sable](https://www.linkedin.com/in/prathamesh-sable) in [Elastik Teams India Pvt. Ltd.](https://www.elastikteams.com)
 ---
