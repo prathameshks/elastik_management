@@ -41,7 +41,7 @@ Elastik Teams Office Management is a comprehensive office administration applica
 
 ## Future Enhancements
 - **Actual Realtime API:** Implement a real-time API to provide instant updates on office resources, employee attendance, and community contributions, Use WebSockets or similar technology for real-time communication
-- **Mobile App:** Develop a mobile application for iOS and Android platforms to provide on-the-go access to office management features, Ensure seamless synchronization with the web application
+- **Edit and Assignment of WFO Schema:** Develop a user-friendly interface for admins to edit and assign WFO schemas to employees, Allow for easy updates and modifications to existing schemas
 - **Desk Booking:** Implement a desk booking system for employees to reserve workspaces in advance, Integrate with WFO scheduling to ensure desk availability aligns with employee schedules
 - **Notification System:** Implement a notification system to alert employees about important updates, reminders, and announcements, Integrate with the existing news and updates feature for seamless communication
 - **Robust Attendance Tracking:** Enhance attendance tracking with features like geolocation, QR code check-in/check-out, and integration with existing WFO scheduling, Provide detailed reports on attendance patterns and trends
